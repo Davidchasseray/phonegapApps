@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Workshop 3</title>
+        <link rel="stylesheet" href="css/style.css" >
+        <script type="text/javascript" src="cordova.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-auth.js"></script>
+        <script>
+            firebase.initializeApp({
+            apiKey: 'AIzaSyBduURdwiSAcvhsBld6URq8y7MKBr-8aRg',
+            authDomain: 'td3-phonegap.firebaseapp.com',
+            projectId: 'td3-phonegap'
+            })
+            // Initialize Cloud Firestore through Firebase
+            const db = firebase.firestore()
+            // Disable deprecated features
+            db.settings({
+                timestampsInSnapshots: true
+            })
+        </script>
+    </head>
+    <body>
+        <template id="chatheader">
+            <div>
+                <h1>Chat</h1>
+                <button id="delete" v-on:click="deleteProfile()">Delete Profile</button>
+            </div>
+        </template>
+    <template id="signIn">
+        <div class="content">
+            <div class="row vcenter">
+                    <h3>Email <span><input v-model="newEmail" type="text"  id="newEmail" value="@student.ju.se"></span></h3>
+                
+            </div>
+            <div class="row vcenter">
+                    <h3>Password <span><input v-model="newPassword" type="password"></span></h3>  
+            </div>                
+                    
+            <div class="row vcenter">
+                <button v-on:click="signIn()">Sign In</button>
+            </div>
+        </div>
+    </template>
+    <template id="signUp">
+        <div class="content">
+            <div class="row vcenter">
+                    <h3>Username <span><input v-model="username" type="text"  id="newuname" value="JohnDoe"></span></h3>  
+            </div>  
+            <div class="row vcenter">
+                    <h3>Email <span><input v-model="newEmail" type="text"  id="newEmail" value="@student.ju.se"></span></h3>
+                
+            </div>
+            <div class="row vcenter">
+                    <h3>Password <span><input v-model="newPassword" type="password"  id="newPswd" value=""></span></h3>  
+            </div>                
+            <div class="row vcenter">
+                <button  v-on:click="signUp()">Sign Up</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="chat">
+        <div class="content">
+            <div class="row vcenter">
+                    <h3>Discussion </h3>
+            </div>
+            <div class="row">
+                    <ul id="">
+                            <div class="row" v-for="message in messages">
+                                    <card-page v-if="message.yourmessage==true"  id="yourmessage" v-bind:message="message" ></card-page>
+                                    <card-page v-if="message.yourmessage==false"  v-bind:message="message" ></card-page>
+                                    
+                            </div>
+                        </ul>
+            </div>
+            <div class="row">
+                    <h3>Participate to the conversation </h3> 
+                    <input v-model="newmessage" type="text"  id="newmessage" value="">
+                    
+                    <button v-on:click="send()">Send</button>
+
+            </div>                
+        </div>
+    </template>
+    <template id="modifyChat">
+        <div class="content">
+            <div class="row vcenter">
+                    <h3>Update Message </h3>
+            </div>
+            
+            <div class="row">
+                    <input v-model="previousmessage" type="text"  id="newmessage" value="previousmessage">
+                    
+                    <button v-on:click="update()">Modify</button>
+
+            </div>                
+        </div>
+    </template>
+
+    <template id="messageCard">
+            
+            <div class="card">
+                <div class="container"><br>
+                    <h4><b>{{message.text}}</b></h4> 
+                    <p>{{message.username}}</p> 
+                    <button id="deletemessage" v-if="message.yourmessage==true" v-on:click="deleteMessage()">Delete</button>
+                <button id="updatemessage" v-if="message.yourmessage==true" v-on:click="updateMessage()">Edit</button>
+                </div>
+            </div>
+            
+    </template>
+
+
+        <div  id="app"> 
+            <div class="topnav">
+                    <h1 v-if="currentpage == 0" > Sign In </h1>
+                    <h1 v-else-if="currentpage == 1" > Sign Up </h1>
+                    <chatheader-page v-else> Chat </chatheader-page>
+            </div>
+
+            <div class="content">
+                <chat-page v-if="currentpage == 2" ></chat-page>
+                <signup-page  v-else-if="currentpage == 1" v-bind:currentpage="currentpage"></signup-page>
+                <modify-page  v-else-if="currentpage == 3" v-bind:currentpage="currentpage"></modify-page>
+
+                <signin-page  v-else v-bind:currentpage="currentpage"></signin-page>
+            </div>
+            <div class="row footer">
+                    <button v-if="currentpage == 0" v-on:click="currentpage=1">Sign Up</button>
+                    <button v-else-if="currentpage == 1" v-on:click="currentpage=0">Sign In</button>
+                    <button v-else-if="currentpage == 3" v-on:click="currentpage=2">Back</button>
+                    <button v-else v-on:click="currentpage=0">Sign Out</button>
+
+        </div>      
+        </div>
+        <script src="js/index.js"></script>
+    </body>
+</html>

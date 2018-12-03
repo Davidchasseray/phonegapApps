@@ -1,0 +1,107 @@
+
+/*---------- Global Style ----------*/
+
+body {
+    color: #222;
+    font-family: 'Fauna One', serif;
+    font-size: 17px;
+    line-height: 1.8!important;
+}
+html {
+    overflow-x: hidden;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 200;
+    color: #111;
+    line-height: 1.5em;
+    margin-top: 0;
+}
+p {
+    font-family: 'Fauna One', serif;
+    font-weight: 300;
+    margin-top: 1px;
+}
+p,
+ul,
+li {
+    color: #666;
+}
+
+ul{
+    padding: 0px;
+}
+
+a,
+a:link {
+    color: #666;
+}
+
+img{
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+a:hover,
+a:focus,
+#menu a:hover,
+button:hover{
+    color: purple;
+    text-decoration: none;
+}
+
+.vcenter {
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+}
+.fill {
+    height: 100vh;
+}
+
+#menu li,
+button{
+    background-color: rgb(28, 108, 122);
+    border-color: black;
+    color: white;
+    border-radius: 50px;
+    list-style-type: none;
+    margin : 10px auto;
+    padding-left: 0;
+    width: 100px;
+}
+
+#vibrate{
+    font-size: 20px;
+}
+
+
+#menu a{
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+
+/*---------- Navbar ----------*/
+
+.nav {
+    position: relative;
+    width: auto;
+    display: inline-block;
+    border: none;
+    background-color: transparent;
+    border-color: transparent;
+    background: transparent;
+    border: none;
+}
+
+
