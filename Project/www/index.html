@@ -1,88 +1,91 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Project</title>
-        <link rel="stylesheet" href="css/bootstrap.css" >
-        <script type="text/javascript" src="cordova.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-auth.js"></script>
-        <script>
-            firebase.initializeApp({
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Project</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-auth.js"></script>
+    <script>
+        firebase.initializeApp({
             apiKey: ' AIzaSyDKHJR8m9juBx5BlLfR1J6VS26YKLgRrYc',
             authDomain: 'project-cc72c.firebaseapp.com',
             projectId: 'project-cc72c'
-            })
-            // Initialize Cloud Firestore through Firebase
-            const db = firebase.firestore()
-            // Disable deprecated features
-            db.settings({
-                timestampsInSnapshots: true
-            })
-        </script>
-    </head>
-    <body>
-        <template id="home">
-            <div class="container">
-                <button type="button" class="btn btn-success btn-lg btn-block"  v-on:click="switchToParent()">Parent</button>
-                <button type="button" class="btn btn-warning btn-lg btn-block"  v-on:click="switchToChild()">Child</button>
+        })
+        // Initialize Cloud Firestore through Firebase
+        const db = firebase.firestore()
+        // Disable deprecated features
+        db.settings({
+            timestampsInSnapshots: true
+        })
+    </script>
+</head>
+
+<body>
+
+    <template id="sign-in">
+        <div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input v-model="newEmail" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Enter email">
+                <small id="emailHelp" class="form-text text-muted">If you have no account, please sign up</small>
             </div>
-        </template>
-        <template id="parent-sign-in">
-            <div>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
-                  <input v-model="newEmail" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                  <small id="emailHelp" class="form-text text-muted">If you have no account, please sign up</small>
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input v-model="newPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                
-                <button  class="btn btn-primary" v-on:click="signIn()">Sign In</button> Or 
-                <button  class="btn btn-secondary" v-on:click="goToSignUp()">Sign Up</button>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input v-model="newPassword" type="password" class="form-control" id="exampleInputPassword1"
+                    placeholder="Password">
             </div>
-        </template>
-        <template id="parent-sign-up">
-            <div>
-                <div class="form-group">
-                    <label for="inputUserName2">Name</label>
-                    <input v-model="username" type="text" class="form-control" id="inputUserName2" placeholder="Enter Name">
-                </div>
-                <div class="form-group">
-                    <label for="inputEmail2">Email address</label>
-                    <input v-model="newEmail" type="email" class="form-control" id="inputEmail2" aria-describedby="emailHelp" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword2">Password</label>
-                    <input v-model="newPassword" type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-                </div>
-                
-                <button  class="btn btn-primary" v-on:click="signUp()">Sign Up</button> Or
-                <button  class="btn btn-secondary" v-on:click="goToSignIn()">Sign In</button>
+
+            <button class="btn btn-primary" v-on:click="signIn()">Sign In</button> Or
+            <button class="btn btn-secondary" v-on:click="goToSignUp()">Sign Up</button>
+        </div>
+    </template>
+    <template id="parent-sign-up">
+        <div>
+            <div class="form-group">
+                <label for="inputUserName2">Name</label>
+                <input v-model="username" type="text" class="form-control" id="inputUserName2" placeholder="Enter Name">
             </div>
-        </template>
-        <template id="parent-list">
-            <div class="content">
-                <div class="row">
-                        <h3>Children </h3>
-                </div>
-                <div class="row">
-                        <ul id="">
-                                <div class="row" v-for="son in children">
-                                        <button type="button" class="btn btn-secondary btn-lg btn-block" v-on:click="seeSon(son)">{{son.name}}</button>            
-                                </div>
-                            </ul>
-                </div>
+            <div class="form-group">
+                <label for="inputEmail2">Email address</label>
+                <input v-model="newEmail" type="email" class="form-control" id="inputEmail2" aria-describedby="emailHelp"
+                    placeholder="Enter email">
             </div>
-        </template>
-        <template id="parent-child-info">
-            <div>
+            <div class="form-group">
+                <label for="exampleInputPassword2">Password</label>
+                <input v-model="newPassword" type="password" class="form-control" id="exampleInputPassword2"
+                    placeholder="Password">
+            </div>
+
+            <button class="btn btn-primary" v-on:click="signUp()">Sign Up</button> Or
+            <button class="btn btn-secondary" v-on:click="goToSignIn()">Sign In</button>
+        </div>
+    </template>
+    <template id="parent-list">
+        <div class="content">
+            <div class="row">
+                <h3>Children </h3>
+                <button class="btn btn-primary" v-on:click="signUp()">Sign Up</button>
+
+            </div>
+            <div class="row">
+                <ul id="">
+                    <div class="row" v-for="son in children">
+                        <button type="button" class="btn btn-secondary btn-lg btn-block" v-on:click="seeSon(son)">{{son.name}}</button>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </template>
+    <template id="parent-child-info">
+        <div>
             <div class="card">
                 <h4 class="card-title">Position</h4>
                 <p class="card-body" v-bind:position="position">lat : {{position._lat}} & long : {{position._long}}</p>
@@ -91,78 +94,59 @@
                 <h4 class="card-title">On Alert</h4>
                 <p class="card-body" v-bind:onAlert="onAlert">{{onAlert}}</p>
             </div>
-             <button type="button" class="btn btn-danger btn-lg btn-block"  v-on:click="disconnect()">Disconnect</button>            
-            </div>
-        </template>
-
-        <template id="child-list">
-            <div class="content">
-                <div class="row">
-                        <h3>Parents </h3>
-                </div>
-                <div class="row">
-                        <ul>
-                            <div v-for="parent in parents">
-                                    <button type="button" class="btn btn-secondary btn-lg btn-block" v-on:click="seeParent(parent)">{{parent.name}}</button>            
-                            </div>
-                        </ul>
-                </div>
-            </div>
-        </template>
-
-        <template id="child-log-in">
-                <div>
-                    <div class="form-group">
-                        <label for="inputUserName2">Name</label>
-                        <input v-model="username" type="text" class="form-control" id="inputUserName2" placeholder="Enter Name">
-                    </div>
-                    <div class="form-group">
-                      <label for="exampleInputPassword1">Password</label>
-                      <input v-model="newPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                    </div>
-                    
-                    <button  class="btn btn-primary" v-on:click="connect()">Connect</button>
-                </div>
-            </template>
-
-
-        <div  id="app"> 
-              <nav class="navbar navbar-light bg-light">
-
-                    <h1 v-if="currentpage == 0" >Home</h1>
-                    <h1 v-else-if="currentpage == 111 || currentpage == 112" >Parent</h1>
-                    <h1 v-else-if="currentpage == 12" >Online Devices</h1>
-                    <h1 v-else-if="currentpage == 13 || currentpage == 22 || currentpage == 231" >{{headerName}}</h1>
-                    <h1 v-else-if="currentpage == 21" >Online Parents</h1>
-                    <h1 v-else-if="currentpage == 232" > Disconnected </h1>
-                    <h1 v-else > Error </h1>
-
-              </nav>
-
-            <div class="container">
-                <home-page v-if="currentpage == 0" v-bind:currentpage="currentpage">Home</home-page>
-                <child-list-page  v-if="currentpage == 21" v-bind:currentpage="currentpage"></child-list-page >
-                <child-log-in-page  v-else-if="currentpage == 22" v-bind:currentpage="currentpage"></child-log-in-page >
-                <parent-sign-in-page  v-else-if="currentpage == 111" v-bind:currentpage="currentpage"></parent-sign-in-page >
-                <parent-sign-up-page  v-else-if="currentpage == 112" v-bind:currentpage="currentpage"></parent-sign-up-page >
-                <parent-list-page  v-else-if="currentpage == 12" v-bind:currentpage="currentpage"></parent-list-page >
-                <parent-child-info-page  v-else-if="currentpage == 13" v-bind:currentpage="currentpage"></parent-list-page >
-                <child-connected-page  v-else-if="currentpage == 231" v-bind:currentpage="currentpage"></child-connected-page >
-                <child-disconnected  v-else-if="currentpage == 232" v-bind:currentpage="currentpage"></child-disconnected-page >
-            </div>
-            <footer class="footer">
-                <div class="container">
-                    <button v-if="currentpage == 0" v-on:click="contact()" class="btn btn-info" type="button">Contact Us</button>
-                    <button v-else-if="currentpage == 111 || currentpage == 112 || currentpage == 21" v-on:click="currentpage=0" type="button" class="btn btn-secondary">Back</button>
-                    <button v-else-if="currentpage == 12" v-on:click="disconnect()" class="btn btn-danger">Disconnect</button>
-                    <button v-else-if="currentpage == 13" v-on:click="currentpage=12" type="button" class="btn btn-secondary">Back</button>
-                    <button v-else-if="currentpage == 22" v-on:click="currentpage=21" type="button" class="btn btn-secondary">Back</button>
-                    <h1 v-else-if="currentpage == 231">Only your parent can disconnect you</h1>
-                    <button v-else-if="currentpage == 232" v-on:click="currentpage=0" type="button" class="btn btn-dark">Home</button>
-                    <button v-else v-on:click="currentpage=0" type="button" class="btn btn-dark">Home</button>
-                </div>
-            </footer>
+            <button type="button" class="btn btn-danger btn-lg btn-block" v-on:click="disconnect()">Disconnect</button>
         </div>
-        <script src="js/index.js"></script>
-    </body>
+    </template>
+
+
+
+    <template id="child-sign-up">
+        <div>
+            <div class="form-group">
+                <label for="inputUserName">Name</label>
+                <input v-model="username" type="text" class="form-control" id="inputUserName" placeholder="Enter Name">
+            </div>
+            <div class="form-group">
+                <label for="inputEmail">Email address</label>
+                <input v-model="newEmail" type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp"
+                    placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword">Password</label>
+                <input v-model="newPassword" type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
+            </div>
+
+            <button class="btn btn-primary" v-on:click="signUp()">Add child</button>
+            <button class="btn btn-primary" v-on:click="connectExistant()">Synchronize existing child</button>
+
+            <button class="btn btn-secondary" v-on:click="goBackToParent()">Back</button>
+        </div>
+    </template>
+
+
+    <div id="app">
+        <nav class="navbar navbar-light bg-light">
+
+            <h1 v-if="currentpage == 0">Sign In</h1>
+            <h1 v-else-if="currentpage == 1">Sign Up</h1>
+            <h1 v-else-if="currentpage == 2 || currentpage == 3 ">Connected as {{user.name}}</h1>
+            <h1 v-else-if="currentpage == 4">Informations</h1>
+            <h1 v-else-if="currentpage == 5">Create Child Account</h1>
+            <h1 v-else> Error </h1>
+
+        </nav>
+
+        <div class="container">
+            <sign-in-page v-if="currentpage == 0" v-bind:currentpage="currentpage"></sign-in-page>
+            <parent-sign-up-page v-else-if="currentpage == 1" v-bind:currentpage="currentpage"></parent-sign-up-page>
+            <parent-list-page v-else-if="currentpage == 2" v-bind:currentpage="currentpage"></parent-list-page>
+            <parent-child-info-page v-else-if="currentpage == 4" v-bind:currentpage="currentpage"></parent-child-info-page>
+            <child-sign-up-page v-else-if="currentpage == 5" v-bind:currentpage="currentpage"></child-sign-up-page>
+            <child-page v-else-if="currentpage == 3" v-bind:currentpage="currentpage"></child-page>
+        </div>
+
+    </div>
+    <script src="js/index.js"></script>
+</body>
+
 </html>
