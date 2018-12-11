@@ -29,6 +29,8 @@ Vue.component('sign-in-page', {
                         else {
                             app.currentpage = 2;
                         }
+                    }).catch(function(error){
+                        alert(app.user.isChild)
                     });
                 }).catch(function (error) {
                     console.log(error.message)
@@ -224,7 +226,7 @@ Vue.component('child-sign-up-page', {
     props: ["currentpage"],
     data: function () {
         return {
-            newEmail: "child.test@ghu.se",
+            newEmail: "jane.doe@student.ju.se",
             newPassword: "password",
             username: "Jane Doe",
         }
@@ -242,6 +244,10 @@ Vue.component('child-sign-up-page', {
                             uid: user.uid,
                             parentId: app.user.uid,
                             onAlert: false
+                        }).then(() => {
+                            firebase.auth().signOut().then(function () {
+                                    app.currentpage = 2;
+                            })
                         })
 
                     }).catch(function (error) {
@@ -249,13 +255,7 @@ Vue.component('child-sign-up-page', {
                     })
 
                 }.bind(this)
-            ).then(() => {
-                firebase.auth().signOut().then(function () {
-                    firebase.auth().signInWithEmailAndPassword(app.user.email, app.user.pwd).then(() => {
-                        app.currentpage = 2;
-                    })
-                })
-            }).catch(function (error) {
+            ).catch(function (error) {
                 alert("error while trying to sign up.\n(" + error.message + ")\nPlease try again")
             })
         },
@@ -264,18 +264,15 @@ Vue.component('child-sign-up-page', {
                 function (userCredentials) {
                     const user = userCredentials.user
                     db.collection("users").doc(user.uid)
-                        .update({ "parentId": app.user.uid })
-                        .then(function () { console.log("ok") })
-                        .catch(function () { console.log("not ok") })
-                    //ne marche pas, je sais pas pourquoi ... pas logique ... ne fait rien.
-                    alert(user.uid)
-                    alert(app.user.uid)
-                }
-            ).then(() => {
-                        app.currentpage = 2;
+                        .update({ "parentId": app.user.uid }).catch(()=>{alert("non existing child")})
+                        .then(function () { console.log("ok") }).then(() => {
+                            app.currentpage = 2;
+                        
                     
-                
-            }).catch(function (error) {
+                })
+                        
+                }
+            ).catch(function (error) {
 
                 alert("error while trying to sign in.\n(" + error.message + ")\nPlease try again")
             })

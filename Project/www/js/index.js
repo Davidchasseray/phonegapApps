@@ -244,6 +244,10 @@ Vue.component('child-sign-up-page', {
                             uid: user.uid,
                             parentId: app.user.uid,
                             onAlert: false
+                        }).then(() => {
+                            firebase.auth().signOut().then(function () {
+                                    app.currentpage = 2;
+                            })
                         })
 
                     }).catch(function (error) {
@@ -251,13 +255,7 @@ Vue.component('child-sign-up-page', {
                     })
 
                 }.bind(this)
-            ).then(() => {
-                firebase.auth().signOut().then(function () {
-                    firebase.auth().signInWithEmailAndPassword(app.user.email, app.user.pwd).then(() => {
-                        app.currentpage = 2;
-                    })
-                })
-            }).catch(function (error) {
+            ).catch(function (error) {
                 alert("error while trying to sign up.\n(" + error.message + ")\nPlease try again")
             })
         },
