@@ -12,7 +12,7 @@ Vue.component('sign-in-page', {
     },
     methods: {
         goToSignUp: function () {
-            app.currentpage = 1;
+            app.currentpage = 'parentSignUp';
         },
         signIn: function () {
             firebase.auth().signInWithEmailAndPassword(this.newEmail, this.newPassword).then(
@@ -24,10 +24,10 @@ Vue.component('sign-in-page', {
                     docRef.get().then(function (doc) {
                         app.user = doc.data()
                         if (app.user.isChild) {
-                            app.currentpage = 3;
+                            app.currentpage = 'child';
                         }
                         else {
-                            app.currentpage = 2;
+                            app.currentpage = 'parentList';
                         }
                     }).catch(function(error){
                         alert(app.user.isChild)
@@ -79,7 +79,7 @@ Vue.component('parent-sign-up-page', {
                     })
 
 
-                    app.currentpage = 2;
+                    app.currentpage = 'parentList';
 
                 }.bind(this)
             ).catch(function (error) {
@@ -88,7 +88,7 @@ Vue.component('parent-sign-up-page', {
             })
         },
         goToSignIn: function () {
-            app.currentpage = 0;
+            app.currentpage = 'singIn';
         }
     },
     created: function () {
@@ -113,10 +113,10 @@ Vue.component('parent-list-page', {
     methods: {
         seeChild: function (child) {
             app.temporaryChild = child;
-            app.currentpage = 4;
+            app.currentpage = 'parentChildInfo';
         },
         signUp: function () {
-            app.currentpage = 5;
+            app.currentpage = 'childSignUp';
         }
     },
     created: function () {
@@ -157,10 +157,10 @@ Vue.component('parent-child-info-page', {
     },
     methods: {
         disconnect: function () {
-            db.collection("users").doc(app.temporaryChild.uid).update({ "parentId": "" }).then(() => { app.currentpage = 2 })
+            db.collection("users").doc(app.temporaryChild.uid).update({ "parentId": "" }).then(() => { app.currentpage = 'parentList' })
         },
         goBack: function () {
-            app.currentpage = 2
+            app.currentpage = 'parentList'
         }
     },
     created: function () {
@@ -246,7 +246,7 @@ Vue.component('child-sign-up-page', {
                             onAlert: false
                         }).then(() => {
                             firebase.auth().signOut().then(function () {
-                                    app.currentpage = 2;
+                                    app.currentpage = 'parentList';
                             })
                         })
 
@@ -266,7 +266,7 @@ Vue.component('child-sign-up-page', {
                     db.collection("users").doc(user.uid)
                         .update({ "parentId": app.user.uid }).catch(()=>{alert("non existing child")})
                         .then(function () { console.log("ok") }).then(() => {
-                            app.currentpage = 2;
+                            app.currentpage = 'parentList';
                         
                     
                 })
@@ -279,7 +279,7 @@ Vue.component('child-sign-up-page', {
         },
 
         goBackToParent: function () {
-            app.currentpage = 2;
+            app.currentpage = 'parentList';
         }
     },
     created: function () {
@@ -296,7 +296,7 @@ const app = new Vue({
     el: '#app',
     data: function () {
         return {
-            currentpage: 0,
+            currentpage: 'singIn',
             user: "",
             temporaryChild: null,
         }

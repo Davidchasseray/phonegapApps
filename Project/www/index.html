@@ -159,22 +159,22 @@
     <div id="app">
         <nav class="navbar navbar-light bg-light">
 
-            <h1 v-if="currentpage == 0">Sign In</h1>
-            <h1 v-else-if="currentpage == 1">Sign Up</h1>
-            <h1 v-else-if="currentpage == 2 || currentpage == 3 ">Connected as {{user.name}}</h1>
-            <h1 v-else-if="currentpage == 4">Informations</h1>
-            <h1 v-else-if="currentpage == 5">Create Child Account</h1>
+            <h1 v-if="currentpage == 'singIn'">Sign In</h1>
+            <h1 v-else-if="currentpage == 'parentSignUp''">Sign Up</h1>
+            <h1 v-else-if="currentpage == 'parentList' || currentpage == 'child' ">Connected as {{user.name}}</h1>
+            <h1 v-else-if="currentpage == 'parentChildInfo'">Informations</h1>
+            <h1 v-else-if="currentpage == 'childSignUp'">Create Child Account</h1>
             <h1 v-else> Error </h1>
 
         </nav>
 
         <div class="container">
-            <sign-in-page v-if="currentpage == 0" v-bind:currentpage="currentpage"></sign-in-page>
-            <parent-sign-up-page v-else-if="currentpage == 1" v-bind:currentpage="currentpage"></parent-sign-up-page>
-            <parent-list-page v-else-if="currentpage == 2" v-bind:currentpage="currentpage"></parent-list-page>
-            <parent-child-info-page v-else-if="currentpage == 4" v-bind:currentpage="currentpage"></parent-child-info-page>
-            <child-sign-up-page v-else-if="currentpage == 5" v-bind:currentpage="currentpage"></child-sign-up-page>
-            <child-page v-else-if="currentpage == 3" v-bind:currentpage="currentpage"></child-page>
+            <sign-in-page v-if="currentpage == 'singIn'" v-bind:currentpage="currentpage"></sign-in-page>
+            <parent-sign-up-page v-else-if="currentpage == 'parentSignUp''" v-bind:currentpage="currentpage"></parent-sign-up-page>
+            <parent-list-page v-else-if="currentpage == 'parentList'" v-bind:currentpage="currentpage"></parent-list-page>
+            <parent-child-info-page v-else-if="currentpage == 'parentChildInfo'" v-bind:currentpage="currentpage"></parent-child-info-page>
+            <child-sign-up-page v-else-if="currentpage == 'childSignUp'" v-bind:currentpage="currentpage"></child-sign-up-page>
+            <child-page v-else-if="currentpage == 'child'" v-bind:currentpage="currentpage"></child-page>
         </div>
 
     </div>
